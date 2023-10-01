@@ -1,28 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { FlatList, SafeAreaView, View } from "react-native";
+import React, { useEffect } from "react";
+import { FlatList, SafeAreaView } from "react-native";
 
 import { styles } from "./Category.Styles";
 
-import { Products } from "../../data";
+import { ProductCard } from "./components";
+import { useSelector, useDispatch } from "react-redux";
+import { setProductsFilteredByCategory } from "../../features/shop/shopSlice";
 
-import { ProductCard, Counter } from "./components";
+const Category = ({ navigation }) => {
+  const dispatch = useDispatch();
 
-const Category = ({ route, navigation }) => {
-  const category = route.params.item;
-  const [productsList, setProductsList] = useState([]);
+  const { products, categorySelected, productsFilteredByCategory } =
+    useSelector((state) => state.shop);
 
   useEffect(() => {
-    const filterCategory = Products.filter(
-      (item) => item.category === category.title
+    const filterCategory = products.filter(
+      (item) => item.category === categorySelected.title
     );
-    setProductsList(filterCategory);
+    dispatch(setProductsFilteredByCategory(filterCategory));
   }, []);
 
   return (
     <SafeAreaView>
-      <Counter />
       <FlatList
-        data={productsList}
+        data={productsFilteredByCategory}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.container}
         renderItem={({ item }) => (

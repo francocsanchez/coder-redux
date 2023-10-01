@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-
-export default configureStore({
+import shopSlice from "../features/shop/shopSlice";
+export const store = configureStore({
   reducer: {
-    
+    shop: shopSlice,
   },
 });

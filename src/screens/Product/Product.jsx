@@ -2,9 +2,11 @@ import React from "react";
 import { View, Text, Image, ScrollView, SafeAreaView } from "react-native";
 
 import { styles } from "./Product.Styles";
+import { useSelector } from "react-redux";
 
-const Product = ({ route }) => {
-  const product = route.params.product;
+const Product = () => {
+  const { productIdSelected } = useSelector((state) => state.shop);
+  const product = productIdSelected;
 
   return (
     <SafeAreaView>

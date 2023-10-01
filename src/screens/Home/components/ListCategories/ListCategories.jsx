@@ -1,10 +1,17 @@
 import { Text, FlatList, View, Pressable } from "react-native";
 import React from "react";
-import { FontAwesome } from "@expo/vector-icons";
 
 import { styles } from "./ListCategories.Styles";
+import { FontAwesome } from "@expo/vector-icons";
 
-const ListCategories = ({ categories, navigation }) => {
+import { useSelector, useDispatch } from "react-redux";
+import { setCategorySelected } from "../../../../features/shop/shopSlice";
+
+const ListCategories = ({ navigation }) => {
+  const dispatch = useDispatch();
+
+  const categories = useSelector((state) => state.shop.categories);
+
   return (
     <FlatList
       data={categories}
@@ -12,7 +19,10 @@ const ListCategories = ({ categories, navigation }) => {
       renderItem={({ item }) => (
         <Pressable
           style={styles.categoryItem}
-          onPress={() => navigation.navigate("Category", { item })}
+          onPress={() => {
+            dispatch(setCategorySelected(item));
+            navigation.navigate("Category");
+          }}
         >
           <Text style={styles.categoryTitle}>{item.title}</Text>
           <View style={styles.iconContainer}>

@@ -1,12 +1,21 @@
-import { View, Text, Image, Pressable } from 'react-native'
-import React from 'react'
+import { View, Text, Image, Pressable } from "react-native";
+import React from "react";
 
-import {styles} from "./ProductCard.Styles"
+import { styles } from "./ProductCard.Styles";
 
-const ProductCard = ({product, navigation}) => {
+import { useDispatch } from "react-redux";
+import { setProductIdSelected } from "../../../../features/shop/shopSlice";
+
+const ProductCard = ({ product, navigation }) => {
+  const dispatch = useDispatch();
+
   return (
-    <Pressable style={styles.card}
-    onPress={() => navigation.navigate("Product", { product })}
+    <Pressable
+      style={styles.card}
+      onPress={() => {
+        dispatch(setProductIdSelected(product));
+        navigation.navigate("Product");
+      }}
     >
       <Image source={{ uri: product.thumbnail }} style={styles.thumbnail} />
       <View style={styles.info}>
@@ -16,7 +25,7 @@ const ProductCard = ({product, navigation}) => {
         <Text style={styles.brand}>Brand: {product.brand}</Text>
       </View>
     </Pressable>
-  )
-}
+  );
+};
 
-export default ProductCard
+export default ProductCard;
